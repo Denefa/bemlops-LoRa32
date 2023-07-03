@@ -26,13 +26,13 @@ More detailed docs: https://docs.heltec.org/en/node/esp32/lorawan/index.html
 
 # Pushing data to BEEP/beeobsverer servers
    
-BEEP devices communicate using TTN by default and it is completly handled by the BEEP app. Adding an own device is a more complex issue.\
+BEEP devices communicate via TTN by default and this is handled entirely by the BEEP app. Adding an own device is a more complex issue.\
 This is what BEEP docs suggest:\
 https://beepsupport.freshdesk.com/en/support/solutions/articles/60000633884-add-your-own-sensor-data-to-the-beep-app \
-Since the update of TTN to v3 there is no way to make a simple  HTTP REST POST request from TTN. It was replaced by Integrations -> webhooks. The TTN docs seems to be outdated in that regard. It is probably still possible to do so, as the BEEP devices still use TTN, it is however unclear why and I couldn't find an answer in the BEEP API doces either. It might be a good idea to ask questions about this problem to BEEP community as they suggested in their docs. For now the workaround is to use ThingSpeak. \
-You can create a ThingSpeak channel using your Matlab account (ThingSpeak is a service from Mathworks) \
+Since TTN was updated to v3, there is no way to do a simple HTTP REST POST request from TTN. It has been replaced by Integrations -> Webhooks. The TTN documentation seems to be outdated in this respect. It's probably still possible as the BEEP devices still use TTN, but it's unclear how and I couldn't find an answer in the BEEP API docs. It might be a good idea to ask questions about this problem to the BEEP community as they have suggested in their docs. For now the workaround is to use ThingSpeak. \
+You can create a ThingSpeak channel using your Matlab account (ThingSpeak is a service provided Mathworks) \
 Detailed docs how to send data from TTN to ThingSpeak: https://www.thethingsnetwork.org/docs/applications/thingspeak/ \
-Enable event type -> uplink message 
+Your webhook -> Enable event type -> uplink message 
 
 In the ThingSpeak: 
 1. Apps -> ThingHTTP -> new ThingHTTP \
@@ -50,7 +50,7 @@ In the ThingSpeak:
            "h": %%channel_YOUR CHANNEL NUMBER_field_7%% \
           } 
 2. Apps -> React -> New React 
-   Set some condition, for example numeric that you know will always be fulfilled.\
+   Set some condition, for example numeric, that you know will always be fulfilled.\
    Set Action as ThingHTTP you've created in previous step.\
    Set "Run action each time condition is met".
 
@@ -59,3 +59,7 @@ Now ThingSpeak should send REST POST request every time it receives data from TT
 Disadvantage of this workaround are: \
  - can send only 8 variables/sensor data \
  - it requires to manually type in a sensor key to URL path \
+
+# Future improvments
+- find a way to send POST requests directly from TTN to BEEP/Bob servers
+- add sensor integration and send real sensor data in payload
